@@ -8,7 +8,7 @@ let handler = async (m, { conn, args }) => {
 
     const onlineList = sortedOnline.map((k, i) => `*${i + 1}.* @${k.split('@')[0]}`).join('\n') || '*〄┇لا يوجد مستخدمين على الانترنت في هذا الوقت┇〄*';
 
-    await conn.reply(m.chat, `*┇🛜 قائمة المتصلين بالانترنت الآن┇〄*\n${onlineList}`, m, {
+    await conn.reply(m.chat, ` *قائمة المتصلين بالانترنت الآن*\n${onlineList}`, m, {
       contextInfo: { mentionedJid: sortedOnline }
     });
   } catch (e) {
