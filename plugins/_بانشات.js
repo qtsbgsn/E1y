@@ -9,6 +9,6 @@ const handler = async (m) => {
 };
 handler.help = ['banchat'];
 handler.tags = ['owner'];
-handler.command = /^بانشات$/i;
+handler.command = /^باتش$/i;
 handler.rowner = true;
 export default handler;
