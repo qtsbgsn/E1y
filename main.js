@@ -129,7 +129,7 @@ opcion = '1'
 if (!methodCodeQR && !methodCode && !fs.existsSync(`./${authFile}/creds.json`)) {
 do {
 let lineM = '⋯ ⋯ ⋯ ⋯ ⋯ ⋯ ⋯ ⋯ ⋯ ⋯ ⋯ 》'
-opcion = await question('[ ℹ️ ] Seleccione una opción:\n1. Con código QR\n2. Con código de texto de 8 dígitos\n---> ')
+opcion = await question('[ 🦈 ] حدد خيارًا:\n1. باستخدام رمز الاستجابة السريعة\n2. مع رمز نصي مكون من 8 أرقام\n---> ')
 //if (fs.existsSync(`./${authFile}/creds.json`)) {
 //console.log(chalk.bold.redBright(`PRIMERO BORRE EL ARCHIVO ${chalk.bold.greenBright("creds.json")} QUE SE ENCUENTRA EN LA CARPETA ${chalk.bold.greenBright(authFile)} Y REINICIE.`))
 //process.exit()
@@ -171,13 +171,13 @@ if (opcion === '2' || methodCode) {
 //}
 opcion = '2'
 if (!conn.authState.creds.registered) {  
-if (MethodMobile) throw new Error('No se puede usar un código de emparejamiento con la API móvil')
+if (MethodMobile) throw new Error('لا يمكن استخدام رمز الاقتران مع Mobile API')
 
 let numeroTelefono
 if (!!phoneNumber) {
 numeroTelefono = phoneNumber.replace(/[^0-9]/g, '')
 if (!Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
-console.log(chalk.bgBlack(chalk.bold.redBright("Comience con el código de país de su número de WhatsApp.\nEjemplo: +5219992095479\n")))
+console.log(chalk.bgBlack(chalk.bold.redBright("ابدأ برمز البلد الخاص برقم واتساب الخاص بك.\nمثال: +201028085788\n")))
 process.exit(0)
 }} else {
 while (true) {
@@ -187,7 +187,7 @@ numeroTelefono = numeroTelefono.replace(/[^0-9]/g, '')
 if (numeroTelefono.match(/^\d+$/) && Object.keys(PHONENUMBER_MCC).some(v => numeroTelefono.startsWith(v))) {
 break 
 } else {
-console.log(chalk.bgBlack(chalk.bold.redBright("Por favor, escriba su número de WhatsApp.\nEjemplo: +5219992095479.\n")))
+console.log(chalk.bgBlack(chalk.bold.redBright("برجاء كتابة رقم الواتساب الخاص بك.\nمثال: +201028085788.\n")))
 }}
 rl.close()  
 } 
@@ -195,15 +195,15 @@ rl.close()
         setTimeout(async () => {
             let codigo = await conn.requestPairingCode(numeroTelefono)
             codigo = codigo?.match(/.{1,4}/g)?.join("-") || codigo
-            console.log(chalk.yellow('[ ℹ️ ] introduce el código de emparejamiento en WhatsApp.'));
-            console.log(chalk.black(chalk.bgGreen(`Su código de emparejamiento: `)), chalk.black(chalk.white(codigo)))
+            console.log(chalk.yellow('[ 🦈 ]أدخل رمز الاقتران في WhatsApp .'));
+            console.log(chalk.black(chalk.bgGreen(`رمز الاقتران الخاص بك: `)), chalk.black(chalk.white(codigo)))
         }, 3000)
 }}
 }
 
 conn.isInit = false;
 conn.well = false;
-conn.logger.info(`[ ℹ️ ] Cargando...\n`);
+conn.logger.info(`[ ⛈️ ] ...\n`);
 
 if (!opts['test']) {
   if (global.db) {
@@ -339,40 +339,40 @@ async function connectionUpdate(update) {
   if (global.db.data == null) loadDatabase();
 if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
 if (opcion == '1' || methodCodeQR) {
-    console.log(chalk.yellow('[ ℹ️ ] Escanea el código QR.'));
+    console.log(chalk.yellow('[ 🦈 ] مسح رمز الاستجابة السريعة.'));
  }}
   if (connection == 'open') {
-    console.log(chalk.yellow('[ ℹ️ ] Conectado correctamente.'));
+    console.log(chalk.yellow('[ 🦈 ]متصل بشكل صحيح .'));
   }
 let reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
 if (reason == 405) {
 await fs.unlinkSync("./MysticSession/" + "creds.json")
-console.log(chalk.bold.redBright(`[ ⚠ ] Conexión replazada, Por favor espere un momento me voy a reiniciar...\nSi aparecen error vuelve a iniciar con : npm start`)) 
+console.log(chalk.bold.redBright(`[ 👾 ] تم استبدال الاتصال، يرجى الانتظار لحظة، وسأقوم بإعادة التشغيل...\nإذا ظهر خطأ، فابدأ مرة أخرى باستخدام: npm start`)) 
 process.send('reset')}
 if (connection === 'close') {
     if (reason === DisconnectReason.badSession) {
-        conn.logger.error(`[ ⚠ ] Sesión incorrecta, por favor elimina la carpeta ${global.authFile} y escanea nuevamente.`);
+        conn.logger.error(`[ 🦈 ] جلسة سيئة، يرجى حذف المجلد ${global.authFile} والمسح مرة أخرى.`);
         //process.exit();
     } else if (reason === DisconnectReason.connectionClosed) {
-        conn.logger.warn(`[ ⚠ ] Conexión cerrada, reconectando...`);
+        conn.logger.warn(`[ 👾 ] تم إغلاق الاتصال، جارٍ إعادة الاتصال ...`);
         await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.connectionLost) {
-        conn.logger.warn(`[ ⚠ ] Conexión perdida con el servidor, reconectando...`);
+        conn.logger.warn(`[ 👾 ] .تم فقد الاتصال بالخادم، جارٍ إعادة الاتصال..`);
         await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.connectionReplaced) {
-        conn.logger.error(`[ ⚠ ] Conexión reemplazada, se ha abierto otra nueva sesión. Por favor, cierra la sesión actual primero.`);
+        conn.logger.error(`[ 👾 ] تم استبدال الاتصال، وتم فتح جلسة جديدة أخرى. الرجاء تسجيل الخروج من الجلسة الحالية أولا.`);
         //process.exit();
     } else if (reason === DisconnectReason.loggedOut) {
-        conn.logger.error(`[ ⚠ ] Conexion cerrada, por favor elimina la carpeta ${global.authFile} y escanea nuevamente.`);
+        conn.logger.error(`[ 👾 ] تم إغلاق الاتصال، يرجى حذف المجلد ${global.authFile} والمسح مرة أخرى.`);
         //process.exit();
     } else if (reason === DisconnectReason.restartRequired) {
-        conn.logger.info(`[ ⚠ ] Reinicio necesario, reinicie el servidor si presenta algún problema.`);
+        conn.logger.info(`[ 👾 ] يلزم إعادة التشغيل، أعد تشغيل الخادم إذا واجهت أي مشاكل.`);
         await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.timedOut) {
-        conn.logger.warn(`[ ⚠ ] Tiempo de conexión agotado, reconectando...`);
+        conn.logger.warn(`[ 👾 ] انتهت مهلة الاتصال، جارٍ إعادة الاتصال...`);
         await global.reloadHandler(true).catch(console.error);
     } else {
-        conn.logger.warn(`[ ⚠ ] Razón de desconexión desconocida. ${reason || ''}: ${connection || ''}`);
+        conn.logger.warn(`[ 👾 ] سبب انقطاع الاتصال غير معروف. ${reason || ''}: ${connection || ''}`);
         await global.reloadHandler(true).catch(console.error);
     }
 }
@@ -416,14 +416,14 @@ global.reloadHandler = async function(restatConn) {
 
   // Para cambiar estos mensajes, solo los archivos en la carpeta de language, 
   // busque la clave "handler" dentro del json y cámbiela si es necesario
-  conn.welcome = '👋 ¡Bienvenido/a!\n@user';
-  conn.bye = '👋 ¡Hasta luego!\n@user';
-  conn.spromote = '*[ ℹ️ ] @user Fue promovido a administrador.*';
-  conn.sdemote = '*[ ℹ️ ] @user Fue degradado de administrador.*';
-  conn.sDesc = '*[ ℹ️ ] La descripción del grupo ha sido modificada.*';
-  conn.sSubject = '*[ ℹ️ ] El nombre del grupo ha sido modificado.*';
-  conn.sIcon = '*[ ℹ️ ] Se ha cambiado la foto de perfil del grupo.*';
-  conn.sRevoke = '*[ ℹ️ ] El enlace de invitación al grupo ha sido restablecido.*';
+  conn.welcome = '✦━━━━[ 𝐸𝐿𝐴𝐾𝑅𝐸𝐵 ]━━━━✦\n\n┏––––––━━━━━━━━•\n│⫹⫺ @subject\n┣━━━━━━━━┅┅┅\n│( نورت الروم ✨♥@user)\n├[ *المطور* ]—\n│ *ELAKRAB ELYOTUBER*\n┗––––––━━┅┅┅\n\n––––––┅┅ *الوصف ✨♥*┅┅––––––\n@desc' 
+   conn.bye = ' 𝐸𝐿𝐴𝐾𝑅𝐸𝐵 \n *هتغور هيجي مكانك طبور 😂😂🤲🏻* @user* 👋🏻*'
+conn.spromote = '*@user مبروك الادمن يا قلب اخوك ♥*'
+conn.sdemote = '*@user  كنت ادمن حلو ملكش نصيب تكمل ادمين  ♥*'
+conn.sDesc = '*تم تعديل وصف الجروب ♥*\n\n*الوصف الجديد:* @desc'
+conn.sSubject = ' تم تغير اسم الجروب ♥*\n*الاسم الجديد:* @subject'
+conn.sIcon = '*تم تغير صوره الجروب ♥*'
+conn.sRevoke = '*تم تحديث رابط الجروب ♥*\n*اللينك الجديد:* @revoke'
 
   conn.handler = handler.handler.bind(global.conn);
   conn.participantsUpdate = handler.participantsUpdate.bind(global.conn);
