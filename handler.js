@@ -1398,7 +1398,7 @@ ${tradutor.texto1[1]} ${messageNumber}/3
             if (user.commandCount === 2) {
               const remainingTime = Math.ceil((user.lastCommandTime + 5000 - Date.now()) / 1000);
               if (remainingTime > 0) {
-                const messageText = `*[ ℹ️ ] Espera* _${remainingTime} segundos_ *antes de utilizar otro comando.*`;
+                const messageText = `*[ 🦈 ] انتظر* _${remainingTime} ثواني_ *قبل استخدام أمر آخر.*`;
                 m.reply(messageText);
                 return;
               } else {
@@ -1647,7 +1647,7 @@ export async function participantsUpdate({ id, participants, action }) {
                   let secondText = `Welcome, ${await this.getName(user)}, Number ${nthMember}Member`;
           
                   let welcomeApiUrl = `https://api.popcat.xyz/welcomecard?background=${encodeURIComponent(
-                    'https://telegra.ph/file/1b23a7b02039841c19332.jpg'
+                    'https://telegra.ph/file/2e8e083a06709c15f98ae.jpg'
                   )}&text1=${encodeURIComponent(
                     await this.getName(user)
                   )}&text2=Welcome+To+Group&text3=Number+Member:${encodeURIComponent(
@@ -1687,7 +1687,7 @@ export async function participantsUpdate({ id, participants, action }) {
                   let secondText = `Bay, Number ${nthMember}member`;
           
                   let leaveApiUrl = `https://api.popcat.xyz/welcomecard?background=${encodeURIComponent(
-                    'https://telegra.ph/file/1b23a7b02039841c19332.jpg'
+                    'https://telegra.ph/file/e8d3d0edaa8712c9c2db5.jpg'
                   )}&text1=${encodeURIComponent(
                     await this.getName(user)
                   )}&text2=Good+Bay&text3=Number+Member:${encodeURIComponent(
