@@ -57,7 +57,7 @@ function start(file) {
   });
   p.on('exit', (_, code) => {
     isRunning = false;
-    console.error('[ ℹ️ ] Ocurrio un error inesperado:', code);
+    console.error('[ 🦈 ] حدث خطأ غير متوقع:', code);
 
     p.process.kill();
     isRunning = false;
