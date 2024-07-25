@@ -1,24 +1,109 @@
-const linkRegex = /chat.whatsapp.com\/(?:invite\/)?([0-9A-Za-z]{20,24})/i
+import fetch from 'node-fetch'  
 
-export async function before(m, { isAdmin, isBotAdmin }) {
-    if (m.isBaileys && m.fromMe)
-        return !0
-    if (!m.isGroup) return !1
-    let chat = global.db.data.chats[m.chat]
-    let bot = global.db.data.settings[this.user.jid] || {}
-    const isGroupLink = linkRegex.exec(m.text)
-    let hapus = m.key.participant
-    let bang = m.key.id
+const isLinkTik = /tiktok.com/i 
+const isLinkYt = /youtube.com|youtu.be/i 
+const isLinkTel = /telegram.com|t.me/i 
+const isLinkFb = /facebook.com|fb.me/i 
+const isLinkIg = /instagram.com/i 
+const isLinkTw = /twitter.com|x.com/i 
+const isLinkDc = /discord.com|discord.gg/i 
+const isLinkTh = /threads.net/i 
+const isLinkTch = /twitch.tv/i
+  
+let handler = m => m
+handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }) {
+if (!m.isGroup) return 
+if (!isAdmin || !isOwner || !isROwner || m.fromMe || !isBotAdmin) return
 
-    if (chat.antiLink && isGroupLink && !isAdmin) {
-        if (isBotAdmin) {
-            const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`
-            if (m.text.includes(linkThisGroup)) return !0
-        }
-        await conn.reply(m.chat,'انت كده شبح يعني لم تبعت روابط منغير اذن من المشرف 🤨', m)
-        if (isBotAdmin && bot.restrict) {
-            return conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: m.id, participant: m.sender } })
-        } else if (!bot.restrict) return m.reply('لاموخده ي زميلي الي ما يعرفك يجهلك 😂')
-    }
-    return !0
+let chat = global.db.data.chats[m.chat]
+let bot = global.db.data.settings[this.user.jid] || {}
+let delet = m.key.participant
+let bang = m.key.id
+let toUser = `${m.sender.split("@")[0]}`
+let aa = toUser + '@s.whatsapp.net'
+    
+const isAntiLinkTik = isLinkTik.exec(m.text)
+const isAntiLinkYt = isLinkYt.exec(m.text)
+const isAntiLinkTel = isLinkTel.exec(m.text)
+const isAntiLinkFb = isLinkFb.exec(m.text)
+const isAntiLinkIg = isLinkIg.exec(m.text)
+const isAntiLinkTw = isLinkTw.exec(m.text)
+const isAntiLinkDc = isLinkDc.exec(m.text)
+const isAntiLinkTh = isLinkTh.exec(m.text)
+const isAntiLinkTch = isLinkTch.exec(m.text)
+ 
+if (chat.antiTiktok && isAntiLinkTik) {  
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+    
+if (chat.antiYoutube && isAntiLinkYt) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+    
+if (chat.antiTelegram && isAntiLinkTel) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+    
+if (chat.antiFacebook && isAntiLinkFb) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return 
+}}
+    
+if (chat.antiInstagram && isAntiLinkIg) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return 
+}}
+    
+if (chat.antiTwitter && isAntiLinkTw) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+
+if (chat.antiDiscord && isAntiLinkDc) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+
+if (chat.antiThreads && isAntiLinkTh) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+
+if (chat.antiTwitch && isAntiLinkTch) {
+if (isBotAdmin) {
+await conn.reply(m.chat, `*「 تم اكتشاف رابط ممنوع 」*\n@${toUser} 🤨 انت خرقت قواعد الجروب وهتطرد....`, null, { mentions: [aa] })
+await conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }})
+let remove = await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+if (remove[0].status === '404') return
+}}
+
+return !0
 }
+export default handler
