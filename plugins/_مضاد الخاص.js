@@ -1,24 +1,18 @@
-// TheMystic-Bot-MD@BrunoSobrino - _antiprivado.js
+export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }) {
 
-   // Para configurar o idioma, na raiz do projeto altere o arquivo config.json
-  // Para configurar el idioma, en la raíz del proyecto, modifique el archivo config.json.
-  // To set the language, in the root of the project, modify the config.json file.
+if (m.isBaileys && m.fromMe) return !0
+if (m.isGroup) return !1
+if (!m.message) return !0
+if (m.text.includes('PIEDRA') || m.text.includes('PAPEL') || m.text.includes('TIJERA') || m.text.includes('estado') || m.text.includes('verificar') || m.text.includes('creadora') || m.text.includes('bottemporal') || m.text.includes('grupos') || m.text.includes('instalarbot') || m.text.includes('términos') || m.text.includes('bots') || m.text.includes('deletebot') || m.text.includes('eliminarsesion') || m.text.includes('serbot') || m.text.includes('verify') || m.text.includes('register') || m.text.includes('registrar') || m.text.includes('reg') || m.text.includes('reg1') || m.text.includes('nombre') || m.text.includes('name') || m.text.includes('nombre2') || m.text.includes('name2') || m.text.includes('edad') || m.text.includes('age') || m.text.includes('edad2') || m.text.includes('age2') || m.text.includes('genero') || m.text.includes('género') || m.text.includes('gender') || m.text.includes('identidad') || m.text.includes('pasatiempo') || m.text.includes('hobby') || m.text.includes('identify') || m.text.includes('finalizar') || m.text.includes('pas2') || m.text.includes('pas3') || m.text.includes('pas4') || m.text.includes('pas5') || m.text.includes('registroC') || m.text.includes('deletesesion') || m.text.includes('registroR') || m.text.includes('jadibot')) return !0
 
-export async function before(m, {conn, isAdmin, isBotAdmin, isOwner, isROwner}) {
-    const datas = global
-    const idioma = datas.db.data.users[m.sender].language
-    const _translate = JSON.parse(fs.readFileSync(`./language/${idioma}.json`))
-    const tradutor = _translate.plugins._antiprivado
+let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
+let chat = global.db.data.chats[m.chat]
+let user = global.db.data.users[m.sender]
+let bot = global.db.data.settings[this.user.jid] || {}
 
-  if (m.isBaileys && m.fromMe) return !0;
-  if (m.isGroup) return !1;
-  if (!m.message) return !0;
-  if (m.text.includes('PIEDRA') || m.text.includes('PAPEL') || m.text.includes('TIJERA') || m.text.includes('serbot') || m.text.includes('jadibot')) return !0;
-  const chat = global.db.data.chats[m.chat];
-  const bot = global.db.data.settings[this.user.jid] || {};
-  if (bot.antiPrivate && !isOwner && !isROwner) {
-    await m.reply(tradutor.texto1, false, {mentions: [m.sender]});
-    await this.updateBlockStatus(m.chat, 'block');
-  }
-  return !1;
-}
+if (bot.antiPrivate && !isOwner && !isROwner) {
+await m.reply(`اهلا يا صحبي  @${who.replace(/@.+/, '')}، *ما ينفعش تستخدم البوت ده في الشات الخاص*\n\nادخل الجروب الرسمي عشان تقدر تستخدم البوت كلم المطور هنا https://api.whatsapp.com/send?phone=+201028085788\n${nn}`, false, { mentions: [who] })
+await conn.groupParticipantsUpdate(m.chat, [m.sender], 'banchat')
+
+return !1
+}}
