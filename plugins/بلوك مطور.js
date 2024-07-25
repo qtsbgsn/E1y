@@ -6,7 +6,8 @@ export async function before(m, {conn, isAdmin, isBotAdmin, isOwner, isROwner}) 
   const chat = global.db.data.chats[m.chat];
   const bot = global.db.data.settings[this.user.jid] || {};
   if (bot.antiPrivate && !isOwner && !isROwner) {
-    await m.reply(`*[❗] ʜᴏʟᴀ @${m.sender.split`@`[0]}, ❮💎┇كلم المطور لرفع لحظر عنكك او ادخل قروب الدعم الرسمي للبوت المطور: 201028085788 يمنع التحدث بالرسائل الخاصة للبوت وبالتالي سيتم حظرك┇❯*`, false, {mentions: [m.sender]});
+    await m.reply(`*اهلا بيك ي صحبي @${m.sender.split`@`[0]}, *ممنوع استخدام البوت في الخاص تقدر تستعملو في الجروب كلم المطور عشان تدخل*
+  https://api.whatsapp.com/send?phone=+201028085788  `, false, {mentions: [m.sender]});
     await this.updateBlockStatus(m.chat, 'block');
   }
   return !1;
